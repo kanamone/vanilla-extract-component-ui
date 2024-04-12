@@ -1,0 +1,19 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		},
+		"ignore": ["app/**/*.module.css.d.ts", "app/**/*.module.css.d.ts.map"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentWidth": 2,
+		"lineWidth": 120,
+		"ignore": ["app/**/*.module.css.d.ts", "app/**/*.module.css.d.ts.map"]
+	}
+}

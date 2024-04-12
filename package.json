@@ -1,0 +1,9 @@
+{
+  "name": "vite-lib-ve",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "postinstall": "cd packages/ui && bun run build"
+  }
+}

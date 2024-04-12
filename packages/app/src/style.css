@@ -1,0 +1,7 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 324px;
+  gap: 16px;
+  align-items: flex-start;
+}
