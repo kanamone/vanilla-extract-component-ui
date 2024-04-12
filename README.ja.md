@@ -1,4 +1,4 @@
-# 日本語の README: Vanilla-Extract と Vite を使用した UI ライブラリの Monorepo
+# Vanilla-Extract と Vite を使用した UI ライブラリの Monorepo
 
 このリポジトリは、`@vanilla-extract/css` と Vite のライブラリモードを使用して UI ライブラリを構築するためのモノレポのセットアップを示しています。特に、TypeScript の定義から CSS 変数の生成と適用までの詳細な例を含んでいます。
 
