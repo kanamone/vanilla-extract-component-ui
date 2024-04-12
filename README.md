@@ -1,4 +1,4 @@
-# English README: Vanilla-Extract and Vite UI Library Monorepo
+# Vanilla-Extract and Vite UI Library Monorepo
 
 This repository showcases a monorepo setup to build a UI library using `@vanilla-extract/css` and Vite in library mode. It includes a detailed example of how TypeScript definitions translate into CSS, particularly highlighting the generation and application of CSS variables.
 
