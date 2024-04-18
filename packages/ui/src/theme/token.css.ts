@@ -12,10 +12,10 @@ export const vars = createGlobalThemeContract({
 
 createGlobalTheme(":root", vars, {
 	color: {
-		primary: "#007BFF",
-		primaryHover: "#0056b3",
-		textPrimary: "#FFFFFF",
-		borderColor: "#ccc",
-		focusBorderColor: "#007BFF",
+		primary: "light-dark(#007BFF, #0a84ff)",
+		primaryHover: "light-dark(#0056b3, #0060df)",
+		textPrimary: "light-dark(#FFFFFF, #e0e0e0)",
+		borderColor: "light-dark(#ccc, #333)",
+		focusBorderColor: "light-dark(#007BFF, #0a84ff)",
 	},
 });

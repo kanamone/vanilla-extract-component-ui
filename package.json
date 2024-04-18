@@ -2,5 +2,9 @@
   "name": "vite-lib-ve",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "deepmerge": "^4.3.1",
+    "postcss-preset-env": "^9.5.5"
+  }
 }

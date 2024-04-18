@@ -1,45 +1,58 @@
 {
-	"name": "ui",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"main": "dist/index.cjs",
-	"module": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"sideEffects": false,
-	"files": ["dist", "package.json"],
-	"exports": {
-		"./style.css": "./dist/index.css",
-		".": {
-			"import": {
-				"types": "./dist/index.d.ts",
-				"default": "./dist/index.js"
-			},
-			"require": {
-				"types": "./dist/index.d.cts",
-				"default": "./dist/index.cjs"
-			}
-		}
-	},
-	"scripts": {
-		"build": "vite build",
-		"publint": "publint",
-		"lint": "biome check src",
-		"fmt": "biome check --apply src"
-	},
-	"peerDependencies": {
-		"react": ">=18.0.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^1.6.4",
-		"@types/react": "^18.2.66",
-		"@types/react-dom": "^18.2.22",
-		"@vanilla-extract/css": "^1.14.2",
-		"@vanilla-extract/vite-plugin": "^4.0.7",
-		"@vitejs/plugin-react-swc": "^3.5.0",
-		"publint": "^0.2.7",
-		"react": "^18.2.0",
-		"typescript": "^5.2.2",
-		"vite": "^5.2.0"
-	}
+  "name": "ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "dist/bundle/index.cjs",
+  "module": "dist/build/index.js",
+  "types": "dist/bundle/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "exports": {
+    "./style.css": "./dist/bundle/style.css",
+    ".": {
+      "import": {
+        "types": "./dist/bundle/index.d.ts",
+        "default": "./dist/bundle/index.js"
+      },
+      "require": {
+        "types": "./dist/bundle/index.d.ts",
+        "default": "./dist/bundle/index.cjs"
+      }
+    },
+    "./vanilla-extract": {
+      "import": {
+        "types": "./dist/vanilla-extract/index.d.ts",
+        "default": "./dist/vanilla-extract/index.js"
+      },
+      "require": {
+        "types": "./dist/vanilla-extract/index.d.ts",
+        "default": "./dist/vanilla-extract/index.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "vite build && vite build --mode ve && vite build --mode bundle",
+    "publint": "publint",
+    "lint": "biome check src",
+    "fmt": "biome check --apply src"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.6.4",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vanilla-extract/css": "^1.14.2",
+    "@vanilla-extract/vite-plugin": "^4.0.7",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "publint": "^0.2.7",
+    "react": "^18.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  }
 }

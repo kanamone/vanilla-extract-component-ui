@@ -6,7 +6,7 @@ type Props = ComponentPropsWithoutRef<"button">;
 export const Button: FC<Props> = (props) => {
 	return (
 		<button {...props} className={clsx(styles.root, props.className)}>
-			button
+			{props.children}
 		</button>
 	);
 };

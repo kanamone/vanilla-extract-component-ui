@@ -1,12 +1,32 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
 import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
+import react from "@vitejs/plugin-react-swc";
+import postcssPresetEnv from "postcss-preset-env";
+import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
-import { copyFile } from "node:fs/promises";
+
 import { peerDependencies } from "./package.json";
 
-export default defineConfig({
+const shared = {
+	external: Object.keys(peerDependencies ?? {}),
+	postcss: {
+		plugins: [
+			postcssPresetEnv({
+				browsers: ["> 0.2% and not dead"],
+				features: {
+					"color-mix": true,
+					"light-dark-function": true,
+					"media-query-ranges": true,
+					"cascade-layers": true,
+				},
+			}),
+		],
+	},
+};
+
+const vanillaExtract = defineConfig({
 	build: {
+		sourcemap: true,
+
 		lib: {
 			entry: {
 				index: "src/index.ts",
@@ -14,23 +34,78 @@ export default defineConfig({
 			formats: ["es", "cjs"],
 		},
 		rollupOptions: {
-			external: Object.keys(peerDependencies ?? {}),
-			treeshake: "recommended",
+			output: {
+				dir: "dist/vanilla-extract",
+			},
+			external: [...shared.external, /^@vanilla-extract/],
 		},
-		cssCodeSplit: true,
+	},
+	plugins: [react(), dts({ outDir: "dist/vanilla-extract" })],
+});
+
+const chunk = defineConfig({
+	build: {
 		sourcemap: true,
-		minify: true,
+		cssCodeSplit: true,
+
+		lib: {
+			entry: {
+				theme: "src/theme/index.ts",
+				button: "src/button/index.tsx",
+				textarea: "src/textarea/index.tsx",
+			},
+			formats: ["es", "cjs"],
+		},
+		rollupOptions: {
+			output: {
+				dir: "dist/chunk",
+			},
+			external: shared.external,
+		},
+	},
+	plugins: [react(), vanillaExtractPlugin(), dts({ outDir: "dist/chunk" })],
+	css: {
+		postcss: shared.postcss,
+	},
+});
+
+const bundle = defineConfig({
+	build: {
 		cssMinify: true,
+		minify: true,
+		sourcemap: true,
+		cssCodeSplit: false,
+
+		lib: {
+			entry: {
+				index: "src/index.ts",
+			},
+			formats: ["es", "cjs"],
+		},
+		rollupOptions: {
+			output: {
+				dir: "dist/bundle",
+			},
+			external: shared.external,
+		},
 	},
 	plugins: [
 		react(),
 		vanillaExtractPlugin(),
-		dts({
-			rollupTypes: true,
-			// https://github.com/qmhc/vite-plugin-dts/issues/267
-			afterBuild() {
-				return copyFile("dist/index.d.ts", "dist/index.d.cts");
-			},
-		}),
+		dts({ outDir: "dist/bundle" })
 	],
+	css: {
+		postcss: shared.postcss,
+	},
+});
+
+export default defineConfig(({ mode }) => {
+	switch (mode) {
+		case "ve":
+			return vanillaExtract;
+		case "bundle":
+			return bundle;
+		default:
+			return chunk;
+	}
 });
