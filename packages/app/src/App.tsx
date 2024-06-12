@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, TextArea } from "ui";
 
-import "./style.css";
+import styles from "./style.module.css";
 
 function App() {
 	const [theme, setTheme] = useState<"dark" | "light">("light");
@@ -17,7 +17,7 @@ function App() {
 	}, [theme]);
 
 	return (
-		<div className="root">
+		<div className={styles.root}>
 			<Button onClick={() => setTheme((theme) => (theme === "light" ? "dark" : "light"))}>{theme}</Button>
 			<TextArea />
 			<Button>button</Button>

@@ -1,1 +1,1 @@
-export * from "./token.css";
+export * from "./variables.css";

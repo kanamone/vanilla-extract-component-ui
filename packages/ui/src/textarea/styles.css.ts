@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { vars } from "../theme/token.css";
+import { vars } from "../theme/variables.css";
 
 export const root = style({
 	padding: "10px",

@@ -43,7 +43,7 @@ const vanillaExtract = defineConfig({
 	plugins: [react(), dts({ outDir: "dist/vanilla-extract" })],
 });
 
-const chunk = defineConfig({
+const split = defineConfig({
 	build: {
 		sourcemap: true,
 		cssCodeSplit: true,
@@ -58,7 +58,10 @@ const chunk = defineConfig({
 		},
 		rollupOptions: {
 			output: {
-				dir: "dist/chunk",
+				dir: "dist/split",
+				assetFileNames({ name }) {
+					return name?.replace(/\.css\.ts\.css$/, '.css') ?? '';
+				}
 			},
 			external: shared.external,
 		},
@@ -103,9 +106,9 @@ export default defineConfig(({ mode }) => {
 	switch (mode) {
 		case "ve":
 			return vanillaExtract;
-		case "bundle":
-			return bundle;
+		case "split":
+			return split
 		default:
-			return chunk;
+			return bundle;
 	}
 });
