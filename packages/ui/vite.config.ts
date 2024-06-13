@@ -31,12 +31,34 @@ const vanillaExtract = defineConfig({
 			entry: {
 				index: "src/index.ts",
 			},
-			formats: ["es", "cjs"],
 		},
 		rollupOptions: {
-			output: {
-				dir: "dist/vanilla-extract",
-			},
+			output: [
+				{
+					dir: "dist/vanilla-extract",
+					format: "es",
+					manualChunks(id) {
+						if (id.includes(".css.ts")) {
+							return `__styles/${id?.split("/")?.pop()?.replace(".css.ts", ".css.js")}`;
+						}
+					},
+					chunkFileNames({ name }) {
+						return name;
+					},
+				},
+				{
+					dir: "dist/vanilla-extract",
+					format: "cjs",
+					manualChunks(id) {
+						if (id.includes(".css.ts")) {
+							return `__styles/${id?.split("/")?.pop()?.replace(".css.ts", ".css.js")}`;
+						}
+					},
+					chunkFileNames({ name }) {
+						return name.replace(".css.js", ".css.cjs");
+					},
+				},
+			],
 			external: [...shared.external, /^@vanilla-extract/],
 		},
 	},
@@ -60,13 +82,13 @@ const split = defineConfig({
 			output: {
 				dir: "dist/split",
 				assetFileNames({ name }) {
-					return name?.replace(/\.css\.ts\.css$/, '.css') ?? '';
-				}
+					return name?.replace(/\.css\.ts\.css$/, ".css") ?? "";
+				},
 			},
 			external: shared.external,
 		},
 	},
-	plugins: [react(), vanillaExtractPlugin(), dts({ outDir: "dist/chunk" })],
+	plugins: [react(), vanillaExtractPlugin(), dts({ outDir: "dist/split" })],
 	css: {
 		postcss: shared.postcss,
 	},
@@ -92,11 +114,7 @@ const bundle = defineConfig({
 			external: shared.external,
 		},
 	},
-	plugins: [
-		react(),
-		vanillaExtractPlugin(),
-		dts({ outDir: "dist/bundle" })
-	],
+	plugins: [react(), vanillaExtractPlugin(), dts({ outDir: "dist/bundle" })],
 	css: {
 		postcss: shared.postcss,
 	},
@@ -107,7 +125,7 @@ export default defineConfig(({ mode }) => {
 		case "ve":
 			return vanillaExtract;
 		case "split":
-			return split
+			return split;
 		default:
 			return bundle;
 	}
